@@ -1,5 +1,5 @@
 import {aWss} from "./index.js";
-import {Message} from "./models/models.js";
+import {Chat, Message} from "./models/models.js";
 
 
 export const webSocket = async (ws) => {
@@ -8,9 +8,10 @@ export const webSocket = async (ws) => {
     ws.on('message', async (msg) => {
         msg = JSON.parse(msg)
         switch (msg.method) {
+            case "create-chat":
+                await Chat.create({user_id:msg.usersId})
+                break
             case "connection":
-                // await User.create({phone_number:'9997775544',password:123123})
-                //  await Chat.create({users_id:['1','2']})
                 connectionHandler(ws, msg)
                 break
             case "message":
