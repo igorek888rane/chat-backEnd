@@ -4,8 +4,7 @@ import expressWs from 'express-ws'
 import {sequelize} from "./db.js";
 import {PORT} from "./procces-variables.js";
 import {webSocket} from "./webSocket.js";
-
-
+import {routerAuth} from "./routes/routes.js";
 
 
 const app = express()
@@ -14,8 +13,10 @@ export const aWss = WSServer.getWss()
 
 app.use(cors())
 app.use(express.json())
+app.use('/auth', routerAuth)
 
 WSServer.app.ws('/', (ws) => webSocket(ws))
+
 
 const start = async () =>{
     try {
