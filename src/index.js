@@ -1,10 +1,11 @@
 import express from 'express'
 import cors from 'cors'
 import expressWs from 'express-ws'
-import {sequelize} from "./db.js";
-import {PORT} from "./procces-variables.js";
+import {DB_URI, PORT} from "./procces-variables.js";
 import {webSocket} from "./webSocket.js";
 import {routerAuth} from "./routes/routes.js";
+import mongoose from "mongoose";
+
 
 
 const app = express()
@@ -20,8 +21,7 @@ WSServer.app.ws('/', (ws) => webSocket(ws))
 
 const start = async () =>{
     try {
-        await sequelize.authenticate()
-        await sequelize.sync()
+        await mongoose.connect(DB_URI, {useUnifiedTopology: true, useNewUrlParser: true})
         app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
     }catch (e){
         console.log(e)
