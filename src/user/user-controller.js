@@ -43,6 +43,53 @@ import {generateToken} from "../utils/generateToken.js";
          });
      }
     }
+     async getUsers(req, res) {
+         try {
+             const users = await User.find()
+             res.json(users)
+         } catch (e) {
+             console.log(e)
+         }
+     }
+     async getMe(req, res) {
+         try {
+             const user = await User.findById(req.userId);
+
+             if (!user) {
+                 return res.status(404).json({
+                     message: 'Пользователь не найден',
+                 });
+             }
+             res.json(user);
+
+         } catch (e) {
+             console.log(e);
+             res.status(500).json({
+                 message: 'Нет доступа',
+             });
+         }
+     }
+     async getUserById(req, res) {
+         try {
+             const user = await User.findById(req.params.id);
+
+             if (!user) {
+                 return res.status(404).json({
+                     message: 'Пользователь не найден',
+                 });
+             }
+
+
+
+             res.json(user);
+
+         } catch (e) {
+             console.log(e);
+             res.status(500).json({
+                 message: 'Нет доступа',
+             });
+         }
+     }
 }
 
 

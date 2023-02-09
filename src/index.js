@@ -3,7 +3,7 @@ import cors from 'cors'
 import expressWs from 'express-ws'
 import {DB_URI, PORT} from "./procces-variables.js";
 import {webSocket} from "./webSocket.js";
-import {routerAuth} from "./routes/routes.js";
+import {routerAuth, routerDialog} from "./routes/routes.js";
 import mongoose from "mongoose";
 
 
@@ -15,6 +15,7 @@ export const aWss = WSServer.getWss()
 app.use(cors())
 app.use(express.json())
 app.use('/auth', routerAuth)
+app.use('/dialog', routerDialog)
 
 WSServer.app.ws('/', (ws) => webSocket(ws))
 
