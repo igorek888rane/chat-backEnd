@@ -34,6 +34,14 @@ class DialogController {
         });
     }
     }
+    async getDialogsByUser(req,res){
+      const user = await User.findById(req.userId)
+        const dialogs = await Promise.all(
+            user.dialogs.map(dialog=>Dialog.findById(dialog))
+        )
+        res.json(dialogs)
+
+    }
 }
 
 

@@ -21,3 +21,4 @@ export const routerDialog = new Router()
 //  /dialog/:route
 routerDialog.post('/createDialog',checkAuth,DialogController.create)
 routerDialog.post('/createMessage',checkAuth,MessageController.create)
+routerDialog.get('/getDialogsUser',checkAuth,DialogController.getDialogsByUser)

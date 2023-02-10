@@ -9,20 +9,18 @@ export const webSocket = async (ws) => {
         msg = JSON.parse(msg)
         switch (msg.method) {
             case "create-chat":
-
                 break
             case "connection":
                 connectionHandler(ws, msg)
                 break
             case "message":
-
                 connectionHandler(ws, msg)
                 break
         }
     })
 }
 const connectionHandler = (ws, msg) => {
-    ws.id = msg.chatId
+    ws.id = msg.dialogId
     broadcastConnection(ws, msg)
 }
 
