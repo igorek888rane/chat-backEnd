@@ -40,18 +40,19 @@ class DialogController {
         const dialogs = await Promise.all(
             user.dialogs.map(dialog=>Dialog.findById(dialog))
         )
-        const usersId = dialogs.map(dialog => {
+        const dialogsInfo = dialogs.map(dialog => {
             if(String(dialog.memberTwo) !== userId){
-                return dialog.memberTwo
+                return {companionId:dialog.memberTwo,dialogId:dialog._id,lastMessage:dialog.lastMessage}
             }
            if(String(dialog.memberOne) !== userId){
-               return dialog.memberOne
+               return {companionId:dialog.memberOne,dialogId:dialog._id,lastMessage:dialog.lastMessage}
             }
         })
-        const users  = (await Promise.all(
-            usersId.map(userId => User.findById(userId))
-        )).map(user=>({username:user.username,id:user._id}))
-        res.json({dialogs,users})
+        const dialogsByUser = (await Promise.all(
+            dialogsInfo.map(item => User.findById(item.companionId))
+        )).map((u,i)=>({...dialogsInfo[i],companionUsername:u.username}))
+
+        res.json(dialogsByUser)
 
     }
 }
