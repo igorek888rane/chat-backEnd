@@ -35,11 +35,23 @@ class DialogController {
     }
     }
     async getDialogsByUser(req,res){
-      const user = await User.findById(req.userId)
+       const userId = req.userId
+      const user = await User.findById(userId)
         const dialogs = await Promise.all(
             user.dialogs.map(dialog=>Dialog.findById(dialog))
         )
-        res.json(dialogs)
+        const usersId = dialogs.map(dialog => {
+            if(String(dialog.memberTwo) !== userId){
+                return dialog.memberTwo
+            }
+           if(String(dialog.memberOne) !== userId){
+               return dialog.memberOne
+            }
+        })
+        const users  = (await Promise.all(
+            usersId.map(userId => User.findById(userId))
+        )).map(user=>({username:user.username,id:user._id}))
+        res.json({dialogs,users})
 
     }
 }
