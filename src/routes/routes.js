@@ -1,8 +1,8 @@
 import {Router} from "express";
-import UserController from "../user/user-controller.js";
-import DialogController from "../user/dialog-controller.js";
+import UserController from "../controllers/user-controller.js";
+import DialogController from "../controllers/dialog-controller.js";
 import {checkAuth} from "../utils/checkAuth.js";
-import MessageController from "../user/message-controller.js";
+import MessageController from "../controllers/message-controller.js";
 
 
 //  /auth/:route
