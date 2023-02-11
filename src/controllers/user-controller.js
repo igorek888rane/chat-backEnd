@@ -60,7 +60,7 @@ import {generateToken} from "../utils/generateToken.js";
                      message: 'Пользователь не найден',
                  });
              }
-             res.json(user);
+             res.json({id:user._id,email:user.email,username:user.username,dialogs:user.dialogs});
 
          } catch (e) {
              console.log(e);
