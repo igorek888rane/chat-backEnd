@@ -11,6 +11,11 @@ class MessageController {
    const message = await Message.create(postData)
    res.json(message.text)
   }
+  async getMessageByDialog (req,res){
+      const messages = await Message.find({dialog:req.params.id })
+
+      res.json(messages)
+  }
 
 }
 
