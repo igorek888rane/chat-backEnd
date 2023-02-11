@@ -27,4 +27,4 @@ export const routerMessage = new Router()
 
 // message/:route
 routerMessage.post('/createMessage',checkAuth,MessageController.create)
-routerMessage.get('/getMessageByDialog/:id',checkAuth,MessageController.getMessageByDialog)
+routerMessage.get('/getMessagesByDialog/:id',checkAuth,MessageController.getMessagesByDialog)
