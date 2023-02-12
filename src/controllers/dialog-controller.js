@@ -35,25 +35,32 @@ class DialogController {
     }
     }
     async getDialogsByUser(req,res){
+   try{
        const userId = req.userId
-      const user = await User.findById(userId)
-        const dialogs = await Promise.all(
-            user.dialogs.map(dialog=>Dialog.findById(dialog))
-        )
-        const dialogsInfo = dialogs.map(dialog => {
-            if(String(dialog.memberTwo) !== userId){
-                return {companionId:dialog.memberTwo,dialogId:dialog._id,lastMessage:dialog.lastMessage}
-            }
+       const user = await User.findById(userId)
+       const dialogs = await Promise.all(
+           user.dialogs.map(dialog=>Dialog.findById(dialog))
+       )
+       const dialogsInfo = dialogs.map(dialog => {
+           if(String(dialog.memberTwo) !== userId){
+               return {companionId:dialog.memberTwo,dialogId:dialog._id,lastMessage:dialog.lastMessage}
+           }
            if(String(dialog.memberOne) !== userId){
                return {companionId:dialog.memberOne,dialogId:dialog._id,lastMessage:dialog.lastMessage}
-            }
-        })
-        const dialogsByUser = (await Promise.all(
-            dialogsInfo.map(item => User.findById(item.companionId))
-        )).map((u,i)=>({...dialogsInfo[i],companionUsername:u.username}))
+           }
+       })
+       const dialogsByUser = (await Promise.all(
+           dialogsInfo.map(item => User.findById(item.companionId))
+       )).map((u,i)=>({...dialogsInfo[i],companionUsername:u.username}))
 
-        res.json(dialogsByUser)
+       res.json(dialogsByUser)
 
+   }catch (e) {
+       console.log(e);
+       res.status(500).json({
+           message: 'Не удалось найти диалоги',
+       });
+   }
     }
 }
 

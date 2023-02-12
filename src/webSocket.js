@@ -28,7 +28,7 @@ const broadcastConnection = (ws, msg) => {
     aWss.clients.forEach(client => {
         // console.log(client.id,msg.dialogId);
         if (client.id === msg.dialogId) {
-            client.send(JSON.stringify({text:msg.text,userId:msg.userId,dialogId:msg.dialogId}))
+            client.send(JSON.stringify({text:msg.text,userId:msg.userId,dialogId:msg.dialogId,method:msg.method}))
             console.log(msg)
         }
     })
